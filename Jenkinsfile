@@ -1,9 +1,14 @@
-node ('node-01'){
-  stage('SCM Checkout'){
-    git 'https://github.com/dwmthy/game-of-life'
+node('node-01') {
+  stage('SCM Checkout') {
+    git 'https://github.com/dwmthy/game-of-life.git'
   }
 
-  stage('Compile - Package'){
-    sh 'mvn package'
+  stage('Compile - Package') {
+    def mvnTool = tool name: 'maven-3.8.6', type: 'Maven'    
+    withEnv(["MAVEN_HOME=${mvnTool}", "PATH+MAVEN=${mvnTool}/bin"]) {
+      sh 'echo $MAVEN_HOME' // Debug: Check if MAVEN_HOME is correctly set
+      sh 'echo $PATH'       // Debug: Check if the Maven bin directory is in PATH
+      sh 'mvn package'      // Run Maven build
+    }
   }
 }

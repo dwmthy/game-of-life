@@ -6,7 +6,7 @@ node('node-01'){
     stage('Compile - package'){
         def mvnHome = tool name: 'maven-3.8.6', type: 'maven'
         withEnv(["PATH+MAVEN=${mvnHome}/bin"]) {
-            sh 'mvn --version'
+            sh 'mvn package'
         }
     }
 }
